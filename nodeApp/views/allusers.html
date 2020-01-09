@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Users List</title>
+	</head>
+	<body style="text-align: center;">
+		<form>
+			<button type="button" id="list">Get User List</button>
+		</form>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script>
+			$(function() {
+				$('#list').click(function() {
+					$.ajax({
+						type: 'GET',
+						url: 'http://localhost:8000/api/allUsers',
+						cache: false,
+						complete: function(data , status) {
+							if (data.status == 200) {
+								alert(data.responseText);
+							} else alert('error');
+						},
+					});
+				});
+			});
+		</script>
+	</body>
+</html>

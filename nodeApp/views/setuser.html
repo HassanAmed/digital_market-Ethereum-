@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title style="text-align: center;">I/O Form</title>
+	</head>
+
+	<body style="text-align: center;">
+		<form>
+			<div style="text-align: center;">
+				<label for="fname">First Name</label>
+				<input type="text" fname="First Name" id="fname" required />
+			</div>
+			<div style="text-align: center;">
+				<label for="lname">Last Name</label>
+				<input type="text" lname="Lastname" id="lname" required />
+			</div>
+			<div>
+				<label for="Email">Email</label>
+				<input type="text" name="email" id="email" required />
+			</div>
+			<button type="button" id="btn1">Submit</button>
+		</form>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script>
+			$(function() {
+				$('#btn1').click(function() {
+					$.ajax({
+						type: 'POST',
+						url: 'http://127.0.0.1:8000/api/setUser',
+						data: {
+							fname: $("#fname").val(),
+							lname: $("#lname").val(),
+							email: $("#email").val(),
+						},
+						cache: false,
+						complete: function(data, status) {
+							if (data.status == 200) {
+								alert(data.responseText);
+							} else {
+								alert('Error');
+							}
+						},
+					});
+					// $.ajax({
+					// 	type: 'GET',
+					// 	url: 'http://localhost:8000/api/test',
+					// 	data: {
+					// 		status: 'locked',
+					// 	},
+					// 	cache: false,
+					// 	complete: function(data, status) {
+					// 		if (data.status == 200) {
+					// 			alert(data.responseText);
+					// 		} else {
+					// 			alert('error');
+					// 		}
+					// 	},
+					// });
+
+					// $.post(
+					// 	'http://127.0.0.1:8000/api/setUser',
+					// 	{
+					// 		fname: $fname.val(),
+					// 		lname: $lname.val(),
+					// 		email: $email.val(),
+					// 	},
+					// 	function(data, status) {
+					// 		alert('Data: ' + data + '\nStatus: ' + status);
+					// 	}
+					// );
+				});
+			});
+		</script>
+	</body>
+</html>
