@@ -107,7 +107,7 @@ contract digitalMarket {
         string memory _title,
         string memory _readerId
 
-        ) public {
+        ) public returns(uint) {
         if(readerBase[_readerId].exists == false) {
             revert('Reader id  is not registered');  
         }
@@ -121,7 +121,8 @@ contract digitalMarket {
                 b2.price = bookBase[itr].price;
                 b2.reader = readerBase[_readerId].name;
                 bookBase2.push(b2);
-                payAuthor(bookBase[itr].author_id, b2.price);
+                uint rev = payAuthor(bookBase[itr].author_id, b2.price);
+                return(rev);
             }
             }
             revert('Title did not match. No book with such name found');
@@ -130,7 +131,9 @@ contract digitalMarket {
         return bookBase2;
         
     }
-    function payAuthor(string memory _author_id, uint price) internal {
+    function payAuthor(string memory _author_id, uint price) internal returns
+    (uint){
          authorBase[_author_id].revenue = authorBase[_author_id].revenue + price;
+         return authorBase[_author_id].revenue;
     }
 }

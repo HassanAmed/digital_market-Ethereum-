@@ -18,5 +18,11 @@
   "bugs": {
     "url": "https://github.com/HassanAmed/digital_market/issues"
   },
-  "homepage": "https://github.com/HassanAmed/digital_market#readme"
+  "homepage": "https://github.com/HassanAmed/digital_market#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2",
+    "web3": "^1.2.4"
+  }
 }
