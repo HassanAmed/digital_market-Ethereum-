@@ -1,4 +1,4 @@
-pragma solidity >=0.4.13 <0.6.0;
+pragma solidity >=0.4.17 <0.6.0;
 pragma experimental ABIEncoderV2;
 
 contract digitalMarket {
@@ -84,26 +84,12 @@ contract digitalMarket {
         bookBase.push(b1);
         bookCount++;
     }
-    // function getAuthorBooks (string memory _authorName) public view  returns(string[] memory){
-    //     uint itr;
-    //     uint itr2;
-    //     string[] memory bookList;
-    //     for(itr; itr <= bookBase.length; itr++) {
-    //         if(keccak256(abi.encodePacked(bookBase[itr].author)) == keccak256(abi.encodePacked(_authorName))){
-    //             Book memory b1;
-    //             b1 = bookBase[itr];
-    //             bookList[itr2] = b1.title;
-    //             itr2++;
-    //         }
-        
-    //     }
-    //     return bookList;
-    // }
+
     function getAuthorBooks() public view returns(Book[] memory){
         return bookBase;
         
     }
-       function purchaseBook(
+    function purchaseBook(
         string memory _title,
         string memory _readerId
 
@@ -135,5 +121,34 @@ contract digitalMarket {
     (uint){
          authorBase[_author_id].revenue = authorBase[_author_id].revenue + price;
          return authorBase[_author_id].revenue;
+    }
+    function getAuthor(string memory _key) public view returns(Author memory){
+        return authorBase[_key];    
+    }
+    function getReader(string memory _key) public view returns(Reader memory) {
+        return readerBase[_key];
+    }
+    function resellBook(string memory _title,
+                        string memory _reader,
+                        string memory prevOwnerID,
+                        string memory newOwnerID )
+                        public returns(uint){
+        if(readerBase[prevOwnerID].exists == false || readerBase[newOwnerID].exists == false) {
+            revert('Reader id  is not registered');  
+        }
+        uint itr;
+        for(itr; itr <= bookBase2.length; itr++) {
+            if((keccak256(abi.encodePacked(bookBase2[itr].title)) == keccak256(abi.encodePacked(_title)))
+            &&  keccak256(abi.encodePacked(bookBase2[itr].reader)) == keccak256(abi.encodePacked(_reader))){
+                bookBase2[itr].reader = readerBase[newOwnerID].name;
+                uint depPrice = depreciate(bookBase2[itr].price);
+                bookBase2[itr].price = depPrice;
+                return(depPrice);
+            }
+        }
+        revert('Reader does not own book with provided title - Invalid params provided');
+}
+    function depreciate(uint price) internal pure returns (uint) {
+        return ((price*90)/100);
     }
 }
