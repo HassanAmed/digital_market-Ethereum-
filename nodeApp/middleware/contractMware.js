@@ -44,3 +44,16 @@ module.exports.purchaseBook = async (title , readerID) => {
 	let result = await contract.methods.purchaseBook(title , readerID).send({ from: defaultAccount, gas: 1000000 });
 	return result;
 };
+module.exports.getAuthor = async (id) => {
+	let result = await contract.methods.getAuthor(id).call();
+	return result;
+};
+module.exports.getReader = async (id) => {
+	let result = await contract.methods.getReader(id).call();
+	return result;
+};
+module.exports.resell = async (title, reader, prevOwner,  newOwner) => {
+	//get user by email
+	let result = await contract.methods.resellBook(title, reader, prevOwner, newOwner).send({ from: defaultAccount, gas: 1000000 });
+	return result;
+};

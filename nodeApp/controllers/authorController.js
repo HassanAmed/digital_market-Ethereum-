@@ -38,3 +38,8 @@ function resFilter(res, author) {
 	}
 	return resArray;
 }
+exports.getAuthorById = async (req, res) => {
+	let id = req.body.authorID;
+	let response = await contract.getAuthor(id);
+	res.status(200).send(response);
+};

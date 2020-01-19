@@ -38,3 +38,16 @@ function resFilter(res, rname) {
     }
     return resArray;
 }
+exports.getReaderById = async (req, res) => {
+	let id = req.body.readerID;
+	let response = await contract.getReader(id);
+    res.status(200).send(response);
+};
+exports.resell = async (req, res) => {
+	var title = req.body.title;
+	var reader = req.body.reader;
+	var prevOwner = req.body.sellerID;
+	var newOwner = req.body.buyerID;
+	let response = await contract.resell(title, reader, prevOwner, newOwner);
+	res.status(200).send(`Book Resold with 10% price depreciation \n Transaction hash is${response.transactionHash}`);
+};
